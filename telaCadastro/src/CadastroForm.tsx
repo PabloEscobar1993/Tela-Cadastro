@@ -2,25 +2,33 @@ import React, { useState } from 'react';
 // Importa o arquivo CSS dedicado
 import './CadastroForm.css'; 
 
-// Interfaces para tipar o estado do formulário (TypeScript)
+// 1. INTERFACE ATUALIZADA para os novos campos
 interface CadastroData {
-  nome: string;
+  nomeEmpresa: string;
+  cnpj: string;
   email: string;
-  senha: string;
-  confirmarSenha: string;
+  telefone: string;
+  nomeResponsavel: string;
+  cargoResponsavel: string;
+  cidadeEstado: string;
 }
 
 const CadastroForm: React.FC = () => {
+  // 2. ESTADO INICIAL ATUALIZADO
   const [formData, setFormData] = useState<CadastroData>({
-    nome: '',
+    nomeEmpresa: '',
+    cnpj: '',
     email: '',
-    senha: '',
-    confirmarSenha: '',
+    telefone: '',
+    nomeResponsavel: '',
+    cargoResponsavel: '',
+    cidadeEstado: '',
   });
   
   const [erro, setErro] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // e.target.name deve corresponder às chaves da interface (e.g., 'nomeEmpresa', 'cnpj')
     setFormData({ ...formData, [e.target.name]: e.target.value });
     if (erro) setErro('');
   };
@@ -28,24 +36,33 @@ const CadastroForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (formData.senha !== formData.confirmarSenha) {
-      setErro('As senhas não coincidem!');
-      return;
-    }
+    // 3. LÓGICA DE VALIDAÇÃO SIMPLIFICADA (Apenas checa campos vazios)
+    // Cria um array com todos os valores e verifica se algum está vazio
+    const camposObrigatorios = [
+      formData.nomeEmpresa, 
+      formData.cnpj, 
+      formData.email, 
+      formData.telefone, 
+      formData.nomeResponsavel, 
+      formData.cargoResponsavel, 
+      formData.cidadeEstado
+    ];
 
-    if (!formData.senha || !formData.confirmarSenha || !formData.email || !formData.nome) {
+    const camposVazios = camposObrigatorios.some(campo => !campo.trim());
+
+    if (camposVazios) {
       setErro('Por favor, preencha todos os campos.');
       return;
     }
     
-    setErro('');
-    console.log('Dados para Cadastro:', {
-      nome: formData.nome,
-      email: formData.email,
-      senha: formData.senha 
-    });
+    // Removida a validação de "senhas não coincidem"
     
-    alert('Cadastro simulado realizado com sucesso!');
+    setErro('');
+    
+    // 4. LOG ATUALIZADO
+    console.log('Dados para Cadastro de Empresa:', formData);
+    
+    alert('Cadastro simulado de empresa realizado com sucesso!');
   };
 
   return (
@@ -55,42 +72,72 @@ const CadastroForm: React.FC = () => {
       <div className="cadastro-form-container">
         <div className="cadastro-header">
           <span className="header-line"></span> 
-          <h1 className="cadastro-title">Cadastre-se no EntrenovaFlix</h1>
+          {/* 5. TÍTULO ATUALIZADO */}
+          <h1 className="cadastro-title">Cadastro de Empresa</h1>
         </div>
         
         <form onSubmit={handleSubmit} className="cadastro-form">
+          {/* 6. CAMPOS ATUALIZADOS */}
+          
           <input
             type="text"
-            name="nome"
-            placeholder="Seu Nome Completo"
-            value={formData.nome}
+            name="nomeEmpresa"
+            placeholder="Nome da Empresa"
+            value={formData.nomeEmpresa}
             onChange={handleChange}
             className="form-input"
           />
 
           <input
+            type="text"
+            name="cnpj"
+            placeholder="CNPJ"
+            value={formData.cnpj}
+            onChange={handleChange}
+            className="form-input"
+          />
+          
+          <input
             type="email"
             name="email"
-            placeholder="Seu Melhor E-mail"
+            placeholder="E-mail"
             value={formData.email}
             onChange={handleChange}
             className="form-input"
           />
 
           <input
-            type="password"
-            name="senha"
-            placeholder="Senha"
-            value={formData.senha}
+            type="tel"
+            name="telefone"
+            placeholder="Telefone"
+            value={formData.telefone}
             onChange={handleChange}
             className="form-input"
           />
 
           <input
-            type="password"
-            name="confirmarSenha"
-            placeholder="Confirme a Senha"
-            value={formData.confirmarSenha}
+            type="text"
+            name="nomeResponsavel"
+            placeholder="Nome do Responsável"
+            value={formData.nomeResponsavel}
+            onChange={handleChange}
+            className="form-input"
+          />
+          
+          <input
+            type="text"
+            name="cargoResponsavel"
+            placeholder="Cargo/Função do Responsável"
+            value={formData.cargoResponsavel}
+            onChange={handleChange}
+            className="form-input"
+          />
+          
+          <input
+            type="text"
+            name="cidadeEstado"
+            placeholder="Cidade/Estado da Empresa"
+            value={formData.cidadeEstado}
             onChange={handleChange}
             className="form-input"
           />
@@ -102,7 +149,8 @@ const CadastroForm: React.FC = () => {
           </button>
 
           <p className="login-link">
-            Já tem conta? <a href="#" className="link-secondary">Faça Login</a>
+            {/* 7. TEXTO DE LINK ATUALIZADO */}
+            Já tem um cadastro? <a href="#" className="link-secondary">Voltar</a>
           </p>
         </form>
       </div>

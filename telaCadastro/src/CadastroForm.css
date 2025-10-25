@@ -1,6 +1,13 @@
 /* ----------------------------------------------------- */
 /* ESTILOS DO CONTAINER (Centralização e Fundo)          */
 /* ----------------------------------------------------- */
+/* RECOMENDADO: Para garantir que o wrapper ocupe toda a altura da tela */
+html, body, #root { 
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .cadastro-page-wrapper {
     /* COR DE FUNDO (Use o roxo/vinho que você definiu: #ae7fb4 ou #C0392B) */
     background-color: #9176a7; 
